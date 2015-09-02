@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/tom/my_src/lumin/node/lumin_node.sch)
-    (date "Thu 20 Aug 2015 02:35:28 BST")
+    (date "Thu 20 Aug 2015 23:15:58 BST")
     (tool "Eeschema (2015-08-19 BZR 6105)-product")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -64,7 +64,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 55D5341C))
     (comp (ref Q1)
-      (value Q_NMOS_GDS)
+      (value LED_R)
       (footprint sot:SuperSOT-6-123)
       (datasheet http://www.farnell.com/datasheets/1707073.pdf)
       (fields
@@ -85,7 +85,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 55D5595A))
     (comp (ref Q2)
-      (value Q_NMOS_GDS)
+      (value LED_B)
       (footprint sot:SuperSOT-6-123)
       (datasheet http://www.farnell.com/datasheets/1707073.pdf)
       (fields
@@ -106,7 +106,7 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 55D5B853))
     (comp (ref Q3)
-      (value Q_NMOS_GDS)
+      (value LED_G)
       (footprint sot:SuperSOT-6-123)
       (datasheet http://www.farnell.com/datasheets/1707073.pdf)
       (fields
@@ -150,19 +150,6 @@
       (pins
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
-    (libpart (lib texas-hark) (part SN65HVD3082ED)
-      (fields
-        (field (name Reference) U)
-        (field (name Value) SN65HVD3082ED))
-      (pins
-        (pin (num 1) (name R) (type output))
-        (pin (num 2) (name RE) (type input))
-        (pin (num 3) (name DE) (type input))
-        (pin (num 4) (name D) (type input))
-        (pin (num 5) (name GND) (type power_in))
-        (pin (num 6) (name A) (type output))
-        (pin (num 7) (name B) (type output))
-        (pin (num 8) (name VCC) (type power_in))))
     (libpart (lib device) (part Q_NMOS_GDS)
       (description "Transistor N-MOSFET (general)")
       (fields
@@ -172,6 +159,31 @@
         (pin (num 1) (name G) (type input))
         (pin (num 2) (name D) (type passive))
         (pin (num 3) (name S) (type passive))))
+    (libpart (lib device) (part R)
+      (description Resistor)
+      (footprints
+        (fp R_*)
+        (fp Resistor_*))
+      (fields
+        (field (name Reference) R)
+        (field (name Value) R))
+      (pins
+        (pin (num 1) (name ~) (type passive))
+        (pin (num 2) (name ~) (type passive))))
+    (libpart (lib conn) (part CONN_01X04)
+      (footprints
+        (fp Pin_Header_Straight_1X04)
+        (fp Pin_Header_Angled_1X04)
+        (fp Socket_Strip_Straight_1X04)
+        (fp Socket_Strip_Angled_1X04))
+      (fields
+        (field (name Reference) P)
+        (field (name Value) CONN_01X04))
+      (pins
+        (pin (num 1) (name P1) (type passive))
+        (pin (num 2) (name P2) (type passive))
+        (pin (num 3) (name P3) (type passive))
+        (pin (num 4) (name P4) (type passive))))
     (libpart (lib atmel) (part ATTINY441-SSU)
       (aliases
         (alias ATTINY841-SSU))
@@ -198,31 +210,19 @@
         (pin (num 12) (name "(PCINT1/MOSI/TXD0/TOCC0/AIN00/ADC1)PA1") (type BiDi))
         (pin (num 13) (name "(PCINT0/MISO/AREF/ADC0)PA0") (type BiDi))
         (pin (num 14) (name GND) (type power_in))))
-    (libpart (lib device) (part R)
-      (description Resistor)
-      (footprints
-        (fp R_*)
-        (fp Resistor_*))
+    (libpart (lib texas-hark) (part SN65HVD3082ED)
       (fields
-        (field (name Reference) R)
-        (field (name Value) R))
+        (field (name Reference) U)
+        (field (name Value) SN65HVD3082ED))
       (pins
-        (pin (num 1) (name ~) (type passive))
-        (pin (num 2) (name ~) (type passive))))
-    (libpart (lib conn) (part CONN_01X04)
-      (footprints
-        (fp Pin_Header_Straight_1X04)
-        (fp Pin_Header_Angled_1X04)
-        (fp Socket_Strip_Straight_1X04)
-        (fp Socket_Strip_Angled_1X04))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X04))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))))
+        (pin (num 1) (name R) (type output))
+        (pin (num 2) (name RE) (type input))
+        (pin (num 3) (name DE) (type input))
+        (pin (num 4) (name D) (type input))
+        (pin (num 5) (name GND) (type power_in))
+        (pin (num 6) (name A) (type output))
+        (pin (num 7) (name B) (type output))
+        (pin (num 8) (name VCC) (type power_in))))
     (libpart (lib stmicro-hark) (part L7805CD2T-TR)
       (fields
         (field (name Reference) U)
@@ -234,14 +234,14 @@
   (libraries
     (library (logical device)
       (uri /home/tom/kicad_sources/library-repos/kicad-library/library/device.lib))
-    (library (logical stmicro-hark)
-      (uri /home/tom/my_src/kicad_lib/stmicro-hark.lib))
+    (library (logical conn)
+      (uri /home/tom/kicad_sources/library-repos/kicad-library/library/conn.lib))
     (library (logical atmel)
       (uri /home/tom/kicad_sources/library-repos/kicad-library/library/atmel.lib))
     (library (logical texas-hark)
       (uri /home/tom/my_src/kicad_lib/texas-hark.lib))
-    (library (logical conn)
-      (uri /home/tom/kicad_sources/library-repos/kicad-library/library/conn.lib)))
+    (library (logical stmicro-hark)
+      (uri /home/tom/my_src/kicad_lib/stmicro-hark.lib)))
   (nets
     (net (code 1) (name "Net-(Q3-Pad1)")
       (node (ref Q3) (pin 1))
